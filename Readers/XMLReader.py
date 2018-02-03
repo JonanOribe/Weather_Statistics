@@ -6,34 +6,42 @@ Created on 1 feb. 2018
 
 import bs4 as bs
 import urllib.request
+import numpy as np
+import pandas as pd
 
 counter=0
 cp=48020
+#Create the dataFrame
 
 print("How many cities do you want to work with?")
 cities=input()
 
-while counter<int(cities):
+try:
 
-    url = urllib.request.urlopen("http://www.aemet.es/xml/municipios/localidad_"+str(cp)+".xml").read()
-    soup=bs.BeautifulSoup(url,"lxml")
+    while counter<int(cities):
 
-    counter+=1
+        url = urllib.request.urlopen("http://www.aemet.es/xml/municipios/localidad_"+str(cp)+".xml").read()
+        soup=bs.BeautifulSoup(url,"lxml")
 
-    print("*********************************************")
-    print("PLACE: "+str(counter))
-    for city in soup.find_all('nombre'):
-        print("City: "+city.text)
+        counter+=1
+
+        print("*********************************************")
+        print("PLACE: "+str(counter))
+        for city in soup.find_all('nombre'):
+            print("City: "+city.text)
+
+        for province in soup.find_all('provincia'):
+            print("Province: "+province.text)
+            print("CP: "+str(cp))
+
+        for date in soup.find_all('elaborado'):
+            print("Date: "+date.text)
+
     
-    for province in soup.find_all('provincia'):
-        print("Province: "+province.text)
-    
-    for date in soup.find_all('elaborado'):
-        print("Date: "+date.text)
-    
-    cp+=10
-    """
-    for date in soup.find_all('dia'):
-        if date.text != "":
-            print("Date: "+ date.text)
-    """
+        cp+=10
+
+except:
+
+    print("<------No postal code like "+str(cp)+"------>")
+
+#df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
