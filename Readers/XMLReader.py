@@ -66,6 +66,6 @@ except:
 
     print("<------No postal code like "+str(cp)+"------>")
 
-df=pd.DataFrame(citiesStatus)
+df=pd.DataFrame(citiesStatus,columns=["City","Province","CP","Date"]) #One data for 4 columns,that is the problem
 print(df)
 #df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
