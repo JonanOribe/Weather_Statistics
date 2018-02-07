@@ -12,6 +12,7 @@ import pandas as pd
 
 counter=0
 cp=48020
+data=[]
 
 #Create the dataFrame
 
@@ -26,8 +27,6 @@ class Places(object):
 
 print("How many cities do you want to work with?")
 cities=input()
-
-citiesStatus=[]
 
 try:
 
@@ -58,14 +57,18 @@ try:
  
         cp+=10
 
-        place=Places(cityName,provinceName,cpNumber,date)
-        citiesStatus.append(place)
-        print(str(place))
+        actualPlace=[cityName,provinceName,cpNumber,dateNumber]
+
+        data.append(actualPlace)
+
+        print(data)
 
 except:
 
     print("<------No postal code like "+str(cp)+"------>")
 
-df=pd.DataFrame(citiesStatus,columns=["City","Province","CP","Date"]) #One data for 4 columns,that is the problem
+columns=["City","Province","CP","Date"]
+
+df=pd.DataFrame(data,columns=columns) #One data for 4 columns,that is the problem
 print(df)
-#df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
+df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
