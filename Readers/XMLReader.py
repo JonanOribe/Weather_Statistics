@@ -14,8 +14,7 @@ counter=0
 cp=48020
 data=[]
 
-#Create the dataFrame
-
+"""
 class Places(object):
     def __init__(self,id,city,province,date):
         self.id=id
@@ -24,6 +23,7 @@ class Places(object):
         self.date=date
     def __str__(self):    # All we have done is renamed the method
             return "({0},{1},{2},{3})".format(self.id, self.city,self.province,self.date)
+"""
 
 print("How many cities do you want to work with?")
 cities=input()
@@ -69,6 +69,8 @@ except:
 
 columns=["City","Province","CP","Date"]
 
-df=pd.DataFrame(data,columns=columns) #One data for 4 columns,that is the problem
-print(df)
+df=pd.DataFrame(data,columns=columns) 
+
 df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
+
+print(df)
