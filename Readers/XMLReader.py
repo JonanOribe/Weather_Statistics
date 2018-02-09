@@ -8,7 +8,7 @@ import bs4 as bs
 import urllib.request
 import numpy as np
 import pandas as pd
-
+import re
 
 counter=0
 cp=48020
@@ -25,15 +25,16 @@ class Places(object):
             return "({0},{1},{2},{3})".format(self.id, self.city,self.province,self.date)
 """
 
-print("How many cities do you want to work with?")
-cities=input()
+#print("How many cities do you want to work with?")
+#cities=input()
+cities=8
 
 try:
 
     while counter<int(cities):
-
-        url = urllib.request.urlopen("http://www.aemet.es/xml/municipios/localidad_"+str(cp)+".xml").read()
-        soup=bs.BeautifulSoup(url,"lxml")
+        url="http://www.aemet.es/xml/municipios/localidad_"
+        urlRequest = urllib.request.urlopen(url+str(cp)+".xml").read()
+        soup=bs.BeautifulSoup(urlRequest,"lxml")
 
         counter+=1
 
@@ -53,9 +54,17 @@ try:
 
         for date in soup.find_all('elaborado'):
             dateNumber=date.text
-            print("Date: "+date.text)
+            print("Date: "+dateNumber)
  
         cp+=10
+
+        #for temperature in soup.find_all('prediccion'):
+        #    temperatureValue=temperature
+        #    print("Temperature: "+temperatureValue)
+
+        #temperature=takeTemperature()
+
+        #print(temperature)
 
         actualPlace=[cityName,provinceName,cpNumber,dateNumber]
 
@@ -74,3 +83,27 @@ df=pd.DataFrame(data,columns=columns)
 df.to_csv("weatherStatus.csv", sep='\t', encoding='utf-8')
 
 print(df)
+
+# coding=utf8
+# the above tag defines encoding for this document and is for Python 2.x compatibility
+
+
+def takeTemperature():
+
+    regex = r"(<temperatura>)\n(<maxima>)\d*(<\/maxima>)\n(<minima>)2(<\/minima>)"
+
+    test_str = str(soup)
+
+    matches = re.finditer(regex, test_str)
+
+    for matchNum, match in enumerate(matches):
+        matchNum = matchNum + 1
+
+        print ("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()))
+
+        for groupNum in range(0, len(match.groups())):
+            groupNum = groupNum + 1
+
+            print ("Group {groupNum} found at {start}-{end}: {group}".format(groupNum = groupNum, start = match.start(groupNum), end = match.end(groupNum), group = match.group(groupNum)))
+
+    return match
