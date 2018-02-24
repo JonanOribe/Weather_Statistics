@@ -58,9 +58,9 @@ try:
  
         cp+=10
 
-        #for temperature in soup.find_all('prediccion'):
-        #    temperatureValue=temperature
-        #    print("Temperature: "+temperatureValue)
+        for temperature in soup.find_all('prediccion'):
+            temperatureValue=temperature
+            print("Temperature: "+temperatureValue)
 
         #temperature=takeTemperature()
 
