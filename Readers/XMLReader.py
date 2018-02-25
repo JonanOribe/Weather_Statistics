@@ -6,7 +6,7 @@ Created on 1 feb. 2018
 
 import bs4 as bs
 import urllib.request
-import numpy as np
+#import numpy as np
 import pandas as pd
 import re
 
